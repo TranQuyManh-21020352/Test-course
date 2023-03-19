@@ -1,0 +1,76 @@
+const student = require("../model/User/Student/Student");
+const teacher = require("../model/User/Teacher/Teacher");
+const { mongooseToObject } = require("../../util/mongoose");
+const { validationResult } = require("express-validator");
+class MeController {
+  //[GET]
+  storeInfor(req, res, error) {
+    if (req.params.slug === "Teacher") {
+      teacher.findById(req.params.id).then((teacher) => {
+        res.render("me/storeInfor", {
+          user: mongooseToObject(teacher),
+        });
+      });
+    } else if (req.params.slug === "Student") {
+      student.findById(req.params.id).then((student) => {
+        res.render("me/storeInfor", {
+          user: mongooseToObject(student),
+        });
+      });
+    }
+  }
+
+  //[GET]
+  MyHome(req, res) {
+    if (req.params.slug === "Teacher") {
+      teacher.findById(req.params.id).then((teacher) => {
+        res.render("me/home", {
+          user: mongooseToObject(teacher),
+        });
+      });
+    } else if (req.params.slug === "Student") {
+      student.findById(req.params.id).then((student) => {
+        res.render("me/home", {
+          user: mongooseToObject(student),
+        });
+      });
+    }
+  }
+
+  storeIn(req, res) {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      res.json(error);
+    } else {
+      student
+        .findOne({ email: req.body.email, password: req.body.password })
+        .then((student) => {
+          if (student !== null) {
+            res.render("me/storeInfor", {
+              user: mongooseToObject(student),
+            });
+          } else {
+            teacher
+              .findOne({ email: req.body.email, password: req.body.password })
+              .then((teacher) => {
+                if (teacher !== null) {
+                  res.render("me/storeInfor", {
+                    user: mongooseToObject(teacher),
+                  });
+                } else {
+                  res.redirect("back");
+                }
+              })
+              .catch((error) => {
+                res.send(error);
+              });
+          }
+        })
+        .catch((error) => {
+          res.send(error);
+        });
+    }
+  }
+}
+
+module.exports = new MeController();
