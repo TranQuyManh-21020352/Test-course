@@ -9,6 +9,7 @@ const Teacher = new Schema({
   lastname: { type: String },
   email: { type: String },
   password: { type: String },
+  otp: { type: String },
   gender: { type: String },
   avatar: {
     name: String,

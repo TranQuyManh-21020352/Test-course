@@ -4,6 +4,7 @@ const teacherRouter = require("./teacher");
 const studentRouter = require("./student");
 const splashRouter = require("./splash");
 const uploadRouter = require("./upload");
+const emailRouter = require("./email");
 function route(app) {
   app.use("/splash-screens", splashRouter);
   app.use("/teacher", teacherRouter);
@@ -11,6 +12,7 @@ function route(app) {
   app.use("/site", siteRouter);
   app.use("/me", meRouter);
   app.use("/upload", uploadRouter);
+  app.use("/check", emailRouter);
   app.use("/", siteRouter);
 }
 

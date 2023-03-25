@@ -37,6 +37,23 @@ class MeController {
     }
   }
 
+  async resetPasswordHome(req, res) {
+    if (req.params.slug === "Teacher") {
+      await teacher.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: { password: req.body.password } },
+        { upsert: true }
+      );
+    } else if (req.params.slug === "Student") {
+      await student.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: { password: req.body.password } },
+        { upsert: true }
+      );
+    }
+    res.redirect(`/me/${req.params.slug}/${req.params.id}/MyHome`);
+  }
+
   storeIn(req, res) {
     const error = validationResult(req);
     if (!error.isEmpty()) {

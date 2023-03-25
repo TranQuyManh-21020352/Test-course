@@ -27,6 +27,9 @@ class SiteController {
   homePage(req, res) {
     res.render("home");
   }
+  forgotPassword(req, res) {
+    res.render("login/forgotPassword");
+  }
 }
 
 module.exports = new SiteController();
