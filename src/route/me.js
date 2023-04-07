@@ -1,4 +1,5 @@
 const express = require("express");
+const Mecontroller = require("../app/controller/Mecontroller");
 const router = express.Router();
 const MeController = require("../app/controller/Mecontroller");
 const validator = require("../app/middlewares/validator/validator");
@@ -11,4 +12,5 @@ router.post(
   validator.validatorLogin(),
   MeController.storeIn
 );
+router.use("/total", Mecontroller.show);
 module.exports = router;

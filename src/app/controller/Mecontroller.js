@@ -88,6 +88,15 @@ class MeController {
         });
     }
   }
+
+  async show(req, res) {
+    try {
+      const user = await student.find({});
+      res.json(user);
+    } catch (error) {
+      res.send(error);
+    }
+  }
 }
 
 module.exports = new MeController();

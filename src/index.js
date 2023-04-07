@@ -5,6 +5,7 @@ const path = require("path");
 const handlebars = require("express-handlebars");
 const app = express();
 const port = process.env.port;
+const cors = require("cors");
 const methodOverride = require("method-override");
 const db = require("./config/db/index");
 const route = require("./route/index");
@@ -17,6 +18,7 @@ app.use(
     extended: true,
   })
 );
+app.use(cors({ origin: `http://localhost:3000` }));
 //app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
