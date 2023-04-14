@@ -138,5 +138,25 @@ class EmailController {
       });
     }
   }
+
+  async checkOTPofficial(req, res) {
+    const student = await Student.findOne({
+      email: req.body.email,
+      otp: req.body.otp,
+    });
+    if (student === null) {
+      const teacher = await Teacher.findOne({
+        email: req.body.email,
+        otp: req.body.otp,
+      });
+      if (teacher === null) {
+        res.json({ message: 'OTP code is not correct!' });
+      } else {
+        res.json({ message: 'OTP code is correct!' });
+      }
+    } else {
+      res.json({ message: 'OTP code is correct!' });
+    }
+  }
 }
 module.exports = new EmailController();

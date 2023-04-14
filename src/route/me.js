@@ -7,6 +7,7 @@ const validator = require("../app/middlewares/validator/validator");
 router.use("/:slug/:id/MyProfile", MeController.storeInfor);
 router.use("/:slug/:id/MyHome", MeController.MyHome);
 router.post("/:slug/:id/ResetPasswordHome", MeController.resetPasswordHome);
+router.post("/resetPassword", MeController.resetPassword);
 router.post(
   "/signin/MyProfile",
   validator.validatorLogin(),
