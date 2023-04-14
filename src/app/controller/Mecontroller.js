@@ -89,6 +89,32 @@ class MeController {
     }
   }
 
+  storeTest(req, res) {
+    student
+      .findOne({ email: req.body.email, password: req.body.password })
+      .then((student) => {
+        if (student !== null) {
+          res.json(student);
+        } else {
+          teacher
+            .findOne({ email: req.body.email, password: req.body.password })
+            .then((teacher) => {
+              if (teacher !== null) {
+                res.json(teacher);
+              } else {
+                res.json({ messsage: "Account do not exist" });
+              }
+            })
+            .catch((error) => {
+              res.send(error);
+            });
+        }
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  }
+
   async show(req, res) {
     try {
       const user = await student.find({});

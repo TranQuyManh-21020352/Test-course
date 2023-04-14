@@ -56,6 +56,61 @@ class EmailController {
     }
   }
 
+  async sendOTP(req, res) {
+    try {
+      const email = req.body.email;
+      const student = await Student.findOne({ email: email });
+      if (student === null) {
+        const teacher = await Teacher.findOne({ email: email });
+        if (teacher === null) {
+          res.json({ message: "Email do not exist!" });
+        } else {
+          let otp = [];
+          for (let i = 0; i < 6; i++) {
+            let code = Math.floor(Math.random() * 9);
+            otp.push(code);
+          }
+          await mailer.sendMail(
+            email,
+            "Reset Password",
+            `Your otp code is: ${otp.join("")}`
+          );
+          await Teacher.findOneAndUpdate(
+            { email: email },
+            { $set: { otp: otp.join("") } },
+            { upsert: true }
+          );
+          res.json({
+            message:
+              "OTP code have already been sent to your email. Please check!",
+          });
+        }
+      } else {
+        let otp = [];
+        for (let i = 0; i < 6; i++) {
+          let code = Math.floor(Math.random() * 9);
+          otp.push(code);
+        }
+        await mailer.sendMail(
+          email,
+          "Reset Password",
+          `Your otp code is: ${otp.join("")}`
+        );
+        const test = await Student.findOneAndUpdate(
+          { email: email },
+          { $set: { otp: otp.join("") } },
+          { upsert: true }
+        );
+        res.json({
+          message:
+            "OTP code have already been sent to your email. Please check!",
+        });
+      }
+    } catch (error) {
+      res.json(error);
+    }
+  }
+
   verifyOTP(req, res) {
     res.render("login/verifyOTP");
   }

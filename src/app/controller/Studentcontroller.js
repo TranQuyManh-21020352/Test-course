@@ -13,6 +13,19 @@ class StudentController {
     });
   }
 
+  store(req, res) {
+    const data = req.body;
+    const user = new student(data);
+    user
+      .save()
+      .then(() => {
+        res.json(req);
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  }
+
   // [POST]when sign up
   async storeUp(req, res) {
     const error = validationResult(req);

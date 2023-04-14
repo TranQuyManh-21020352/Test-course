@@ -10,6 +10,9 @@ const methodOverride = require("method-override");
 const db = require("./config/db/index");
 const route = require("./route/index");
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(express.json());
 db.connect();
 //HTTP Logger
 app.use(morgan("combined"));
@@ -18,7 +21,7 @@ app.use(
     extended: true,
   })
 );
-app.use(cors({ origin: `http://localhost:3000` }));
+app.use(cors({ origin: `http://localhost:8081` }));
 //app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));

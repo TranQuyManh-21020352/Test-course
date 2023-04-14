@@ -4,6 +4,19 @@ const { validationResult } = require("express-validator");
 const { mongooseToObject } = require("../../util/mongoose");
 // const { mulMongooseToObject } = require("../../util/mongoose");
 class TeacherController {
+  store(req, res) {
+    const data = req.body;
+    const user = new teacher(data);
+    user
+      .save()
+      .then(() => {
+        res.json(req);
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  }
+
   storeInfor(req, res, error) {
     teacher.findById(req.params.id).then((teacher) => {
       res.render("me/storeInfor", {
