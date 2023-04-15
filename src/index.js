@@ -9,6 +9,31 @@ const cors = require("cors");
 const methodOverride = require("method-override");
 const db = require("./config/db/index");
 const route = require("./route/index");
+const { spawn } = require('child_process');
+const DB_NAME = 'Test-project';
+const ARCHIVE_PATH = path.join(__dirname, 'data', `${DB_NAME}.gzip`);
+
+function backupMongoDB() {
+  const child = spawn('mongodump', [
+    `--db=${DB_NAME}`,
+    `--archive=${ARCHIVE_PATH}`,
+    '--gzip',
+  ]);
+
+  // child.stdout.on('data', (data) => {
+  //   console.log('stdout:\n', data);
+  // });
+
+  // child.stderr.on('data', (data) => {
+  //   console.log('stderr:\n', data);
+  // });
+
+  // child.on('error', (error) => {
+  //   console.log('error:\n', error);
+  // })
+}
+backupMongoDB();
+
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
